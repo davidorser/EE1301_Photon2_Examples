@@ -20,8 +20,10 @@ SerialLogHandler logHandler(LOG_LEVEL_INFO);
 
 #define PIXEL_PIN SPI  // Only use SPI=MO=S0 or SPI1=D2 on Photon 2
 #define PIXEL_COUNT 1
-#define PIXEL_TYPE WS2812 // Only WS2812 is supported...
+#define PIXEL_TYPE WS2812B_FAST // Only WS2812 is supported...
                            // color order is wrong for our neopixels.
+                           // DJO manually patched this in this project only. (6 lines in neopixel.cpp)
+                           // Color order should now work correctly.
 
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
