@@ -20,7 +20,7 @@ SerialLogHandler logHandler(LOG_LEVEL_INFO);
 
 #define PIXEL_PIN SPI  // Only use SPI=MO=S0 or SPI1=D2 on Photon 2
 #define PIXEL_COUNT 1
-#define PIXEL_TYPE WS2812B // Only WS2812 is supported...
+#define PIXEL_TYPE WS2812 // Only WS2812 is supported...
                            // color order is wrong for our neopixels.
 
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
@@ -40,7 +40,7 @@ void setup() {
 
 // loop() runs over and over again, as quickly as it can execute.
 void loop() {
-  const int myBright = 100;
+  const int myBright = 50;
 
   digitalWrite(A5,HIGH);
   strip.setPixelColor(0, strip.Color(0, 0, 0));
