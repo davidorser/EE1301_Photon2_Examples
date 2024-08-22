@@ -1223,8 +1223,8 @@ void Adafruit_NeoPixel::setPixelColor(
       case WS2812B_FAST:
       case WS2812B2:
       case WS2812B2_FAST: {
-          *p++ = g;
           *p++ = r;
+          *p++ = g;
           *p = b;
         } break;
       case TM1829: { // TM1829 is special RBG order
@@ -1260,8 +1260,8 @@ void Adafruit_NeoPixel::setPixelColor(
       case WS2812B_FAST:
       case WS2812B2:
       case WS2812B2_FAST: {
-          *p++ = g;
           *p++ = r;
+          *p++ = g;
           *p = b;
         } break;
       case TM1829: { // TM1829 is special RBG order
@@ -1306,8 +1306,8 @@ void Adafruit_NeoPixel::setPixelColor(uint16_t n, uint32_t c) {
       case WS2812B_FAST:
       case WS2812B2:
       case WS2812B2_FAST: {
-          *p++ = g;
           *p++ = r;
+          *p++ = g;
           *p = b;
         } break;
       case TM1829: { // TM1829 is special RBG order
