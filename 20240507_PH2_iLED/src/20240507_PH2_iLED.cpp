@@ -1,9 +1,7 @@
 /* 
- * Project myProject
- * Author: Your Name
- * Date: 
- * For comprehensive documentation and examples, please visit:
- * https://docs.particle.io/firmware/best-practices/firmware-template/
+ * iLED Example for EE1301, using Photon 2 microcontroller
+ * Author: David Orser
+ * Date: Summer 2024
  */
 
 // Include Particle Device OS APIs
