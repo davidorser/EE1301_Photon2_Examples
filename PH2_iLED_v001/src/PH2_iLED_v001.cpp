@@ -30,12 +30,10 @@ int PIXEL_TYPE = WS2812;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
-// setup() runs once, when the device is first turned on
 void setup() {
   strip.begin();
 }
 
-// loop() runs over and over again, as quickly as it can execute.
 void loop() {
     int PixelColorCyan = strip.Color( 255,   0, 255);
     int PixelColorRed  = strip.Color(   0,  80,   0);
@@ -56,17 +54,4 @@ void loop() {
     strip.setPixelColor(2, PixelColorRed);
     strip.show();
     delay(1000);  //wait 1sec
-
-    //flip the red and gold
-    strip.setPixelColor(0, PixelColorCyan);
-    strip.setPixelColor(1, PixelColorGold);
-    strip.setPixelColor(2, PixelColorRed);
-    strip.show();
-    delay(1000);  //wait 1sec
-
-
-  // Example: Publish event to cloud every 10 seconds. Uncomment the next 3 lines to try it!
-  // Log.info("Sending Hello World to the cloud!");
-  // Particle.publish("Hello world!");
-  // delay( 10 * 1000 ); // milliseconds and blocking - see docs for more info!
 }
