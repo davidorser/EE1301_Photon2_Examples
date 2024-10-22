@@ -12,7 +12,7 @@
 Servo myServo;
 
 // Let Device OS manage the connection to the Particle Cloud
-SYSTEM_MODE(SEMI_AUTOMATIC);
+SYSTEM_MODE(AUTOMATIC);
 
 // Run the application and system concurrently in separate threads
 SYSTEM_THREAD(ENABLED);
@@ -21,31 +21,24 @@ SYSTEM_THREAD(ENABLED);
 // View logs with CLI using 'particle serial monitor --follow'
 SerialLogHandler logHandler(LOG_LEVEL_INFO);
 
-// setup() runs once, when the device is first turned on
 void setup() {
-  pinMode(A2,OUTPUT);
-  //myServo.attach(A2);
-  pinMode(S3,OUTPUT);
-  Log.info("Sending Hello World!");
+  //pinMode(A2,OUTPUT);
+  //pinMode(S3,OUTPUT);
+  myServo.attach(A5);
+  delay(2000);
+  Log.info("Setup Complete!");
 }
 
-// loop() runs over and over again, as quickly as it can execute.
 void loop() {
-  digitalWrite(S3,HIGH);
-  //tone(A5,1000,500);
-  analogWrite(A2,1023); // 25% of 4096
-  //myServo.write(10);
+  // tone(A5,1000,500);
+  myServo.write(10);
+  Log.info("Move Servo to 10 degrees");
   delay(2000);
 
+  // noTone(A5);
+  // analogWrite(A2,3071); // 75% of 4096
   digitalWrite(S3,LOW);
-  //noTone(A5);
-  analogWrite(A2,3079); // 75% of 4096
-  //myServo.write(170);
+  myServo.write(170);
+  Log.info("Move Servo to 170 degrees");
   delay(2000);
-
-
-  // Example: Publish event to cloud every 10 seconds. Uncomment the next 3 lines to try it!
-  // Log.info("Sending Hello World to the cloud!");
-  // Particle.publish("Hello world!");
-  // delay( 10 * 1000 ); // milliseconds and blocking - see docs for more info!
 }
