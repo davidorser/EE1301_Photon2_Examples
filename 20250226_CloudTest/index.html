@@ -1,0 +1,30 @@
+<html>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <form id="thermostat">
+        <input type="radio" name="mode" value="Heat">Set thermostat mode to HEAT.<br>
+        <input type="radio" name="mode" value="Off">Set thermostat mode to OFF.<br>
+        <input type="radio" name="mode" value="Cool">Set thermostat mode to COOL.<br>
+        <input type="submit" value="Do it!">
+    </form>
+
+    <script>
+        var accessToken = "6c7de0d739b65be5f9544797d85794572b01c05d";
+        var deviceId = "0a10aced202194944a043ed0";
+        var functionName = "cF_setMode";
+        $("#thermostat").submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: 'https://api.particle.io/v1/devices/' + deviceId + '/' + functionName,
+                method: "POST",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: { arg: $("input[name='mode']:checked").val() },
+                success: () => alert("Message Sent! \n" + "(this doesn't mean it worked! \n" +
+                    "e.i., may not have a valid ID/Token/FunctionName/etc.)")
+            });
+        });
+    </script>
+</body>
+
+</html>
