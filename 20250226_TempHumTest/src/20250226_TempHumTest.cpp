@@ -95,9 +95,9 @@ void loop()
     Serial.println("Invalid read");
   }
 
-  // heaterOn = (temperature > 7.2);  // 45.0F  : Safety Mode
-  // heaterOn = (temperature > 15.6); // 60.0F  : Comfort Mode
-  heaterOn = (temperature > 21); // 70.0F   : Testing Mode
+  // heaterOn = (temperature < 7.2);  // 45.0F  : Safety Mode
+  // heaterOn = (temperature < 15.6); // 60.0F  : Comfort Mode
+  heaterOn = (temperature < 21); // 70.0F   : Testing Mode
 
   digitalWrite(heaterPin, heaterOn);
   Serial.print("Heater:");
