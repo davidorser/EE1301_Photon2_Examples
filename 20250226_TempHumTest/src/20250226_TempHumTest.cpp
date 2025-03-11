@@ -47,8 +47,8 @@ int heaterPin = D19;
 
 void timer_print_temp();
 
-Timer timer(1000 * 60 * 60, timer_print_temp); // Setup timer for 1 hour : Production Timer
-// Timer timer(1000 * 15, timer_print_temp); // Setup timer for 15 seconds : Testing Timer
+// Timer timer(1000 * 60 * 60, timer_print_temp); // Setup timer for 1 hour : Production Timer
+Timer timer(1000 * 60, timer_print_temp); // Setup timer for 60 seconds : Testing Timer
 
 void timer_print_temp()
 {
@@ -68,9 +68,10 @@ void setup()
 {
   DHT.begin();
   Serial.begin(9600);
-  delay(1000);
+  delay(20000);
   Particle.variable("temp", temperature);
   Particle.variable("humidity", humidity);
+  Particle.variable("HeatState", heaterOn);
   timer.start();
   pinMode(heaterPin, OUTPUT);
 }
@@ -94,7 +95,10 @@ void loop()
     Serial.println("Invalid read");
   }
 
-  heaterOn = (temperature < 7.2); // 45.0F
+  // heaterOn = (temperature > 7.2);  // 45.0F  : Safety Mode
+  // heaterOn = (temperature > 15.6); // 60.0F  : Comfort Mode
+  heaterOn = (temperature > 21); // 70.0F   : Testing Mode
+
   digitalWrite(heaterPin, heaterOn);
   Serial.print("Heater:");
   Serial.print(heaterOn);
