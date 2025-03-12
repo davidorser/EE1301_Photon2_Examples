@@ -1,32 +1,17 @@
 /*
- * Project myProject
- * Author: Your Name
- * Date:
- * For comprehensive documentation and examples, please visit:
- * https://docs.particle.io/firmware/best-practices/firmware-template/
+ * Project Temperature and Humidity Sensor with Heater Toggle
+ * Author: David Orser
+ * Date: 3/11/2025
  */
 
-// Include Particle Device OS APIs
 #include "Particle.h"
-
-// Let Device OS manage the connection to the Particle Cloud
 SYSTEM_MODE(AUTOMATIC);
-
-// Run the application and system concurrently in separate threads
 SYSTEM_THREAD(ENABLED);
-
-// Show system, cloud connectivity, and application logs over USB
-// View logs with CLI using 'particle serial monitor --follow'
 SerialLogHandler logHandler(LOG_LEVEL_INFO);
 
-//
-//    FILE: DHT20_simple.ino
-//  AUTHOR: Rob Parke
-// PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
-//
-
-//  Always check datasheet - front view
-//
+// Parts borrowed from Rob Parke
+// Demo for DHT20 I2C humidity & temperature sensor
+// Front view
 //          +--------------+
 //  VDD ----| 1            |
 //  SDA ----| 2    DHT20   |
@@ -34,18 +19,18 @@ SerialLogHandler logHandler(LOG_LEVEL_INFO);
 //  SCL ----| 4            |
 //          +--------------+
 
-// #include <DHT20.h>
 #include "../lib/DHT20_I2C_Particle/src/DHT20.h"
 
 DHT20 DHT;
-
 double humidity = 0.0;
 double temperature = 0.0;
 
 bool heaterOn = false;
 int heaterPin = D19;
+double tempSetPoint = 7.2; // 7.2C = 45.0F, 15.6C = 60.0F
 
 void timer_print_temp();
+int setTempTarget(String inputString);
 
 // Timer timer(1000 * 60 * 60, timer_print_temp); // Setup timer for 1 hour : Production Timer
 Timer timer(1000 * 60, timer_print_temp); // Setup timer for 60 seconds : Testing Timer
@@ -72,6 +57,8 @@ void setup()
   Particle.variable("temp", temperature);
   Particle.variable("humidity", humidity);
   Particle.variable("HeatState", heaterOn);
+  Particle.variable("tempSetPoint", tempSetPoint);
+  Particle.function("setTempTarget", setTempTarget);
   timer.start();
   pinMode(heaterPin, OUTPUT);
 }
@@ -95,9 +82,14 @@ void loop()
     Serial.println("Invalid read");
   }
 
-  // heaterOn = (temperature < 7.2);  // 45.0F  : Safety Mode
-  // heaterOn = (temperature < 15.6); // 60.0F  : Comfort Mode
-  heaterOn = (temperature < 21); // 70.0F   : Testing Mode
+  if (heaterOn == true && (temperature > (tempSetPoint + 0.5)))
+  {
+    heaterOn = false;
+  }
+  else if (heaterOn == false && (temperature < (tempSetPoint - 0.5)))
+  {
+    heaterOn = true;
+  }
 
   digitalWrite(heaterPin, heaterOn);
   Serial.print("Heater:");
@@ -105,4 +97,14 @@ void loop()
   Serial.print("\n");
 
   delay(2000);
+}
+
+int setTempTarget(String inputString)
+{
+  tempSetPoint = inputString.toFloat();
+  if (tempSetPoint == 0)
+  {
+    tempSetPoint = 7.2;
+  }
+  return tempSetPoint;
 }
